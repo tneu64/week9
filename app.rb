@@ -19,24 +19,33 @@ events_table = DB.from(:events)
 rsvps_table = DB.from(:rsvps)
 
 get "/" do
-    puts events_table.all
+    puts "params: #{params}"
+
+    pp events_table.all.to_a
     @events = events_table.all.to_a
     view "events"
 end
 
 get "/events/:id" do
+    puts "params: #{params}"
+
     @event = events_table.where(id: params[:id]).to_a[0]
-    @rsvps = rsvps_table.where(event_id: @event[:id])
+    pp @event
+    @rsvps = rsvps_table.where(event_id: @event[:id]).to_a
     @going_count = rsvps_table.where(event_id: @event[:id]).sum(:going)
     view "event"
 end
 
 get "/events/:id/rsvps/new" do
+    puts "params: #{params}"
+
     @event = events_table.where(id: params[:id]).to_a[0]
     view "new_rsvp"
 end
 
 get "/events/:id/rsvps/create" do
+    puts "params: #{params}"
+
     view "create_rsvp"
 end
 
@@ -45,7 +54,8 @@ get "/users/new" do
 end
 
 get "/users/create" do
-    puts params
+    puts "params: #{params}"
+
     view "create_user"
 end
 
@@ -54,7 +64,8 @@ get "/logins/new" do
 end
 
 get "/logins/create" do
-    puts params
+    puts "params: #{params}"
+ 
     view "create_login"
 end
 
